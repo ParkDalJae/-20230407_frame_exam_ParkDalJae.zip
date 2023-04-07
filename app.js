@@ -10,4 +10,47 @@
  * 5. 모듈 사용 시, package.JSON 파일의 ‘초기화(initialize)’가 필요하다.
  * 6. 1초당 정보가 갱신되도록 조정하여 사용자(의뢰주)에게 ‘실시간’ 형태로
  *    사용자경험을 유도한다.
+ * 7. 메인 서버 구동파일이름은 app.js로 설정할 것
+ * 8. 포트번호는 3050으로 진행할 것
  */
+
+const http = require("http")
+function htmlFormat(data){
+  return `
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  </head>
+  <body>
+  ${data}
+  </body>
+  </html>
+  `;
+}
+const bodyTestData = 
+`
+<h1>안녕하세요</h1>
+`
+
+
+const appServer = http.createServer((req,res)=>{
+  console.log(req.url)
+  if(req.url==='/'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    let page = htmlFormat(bodyTestData)
+    res.write(page);
+    res.end()
+  }
+})
+
+appServer.listen(3050,(err)=>{
+  if(err){
+    console.log("에러 발생")
+  }else {
+    console.log("서버가 구동됨")
+  }
+})
