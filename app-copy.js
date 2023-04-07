@@ -17,8 +17,6 @@
 const { timeStamp } = require("console");
 const http = require("http")
 const timers = require("timers")
-const fs = require("fs")
-const path = require("path")
 function htmlFormat(data){
   return `
   <!DOCTYPE html>
@@ -61,10 +59,15 @@ function intervalFunc() {
 
 
 const appServer = http.createServer((req,res)=>{
-  fs.readFile('./index.html', function(error, data) {
-    res.writeHead(200, {'Content-Type' : 'text/html'});
-    res.end(data);
-});
+  
+  
+  if(req.url==='/'){
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    setInterval(()=>{
+      console.log(timestamp())
+      res.write(htmlFormat(timestamp()))
+    }, 1000);
+  }
 }).listen(3050,(err)=>{
   if(err){
     console.log("에러 발생")
