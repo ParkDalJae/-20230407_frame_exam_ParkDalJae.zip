@@ -1,0 +1,20 @@
+{
+  "name": "20230407_frame_exam_parkdaljae.zip",
+  "version": "1.0.0",
+  "description": "평가 문제\r 주어진 안건의 요구사항을 수립하여 안건에 대한 정보를 획득 후 적용 할 수 있다.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ParkDalJae/20230407_frame_exam_ParkDalJae.zip.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ParkDalJae/20230407_frame_exam_ParkDalJae.zip/issues"
+  },
+  "homepage": "https://github.com/ParkDalJae/20230407_frame_exam_ParkDalJae.zip#readme"
+}
