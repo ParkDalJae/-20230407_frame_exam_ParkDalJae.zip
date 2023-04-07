@@ -1,9 +1,8 @@
-
 /**
  * 1. 웹 브라우저에서 시간정보가 렌더링 되는 애플리케이션이 주요 사안이다.
  * 2. ‘시계’라고 칭한 의뢰주의 의도는 연,월,일,시,분,초, 요일 정보까지 볼 수 있는
  *    기능이 탑재 되어야 한다. (예 : 2023-4-7 오전 10시 40분 30초 금요일)
- * 3. 심플한 것을 요구하였기 때문에, 화면 정 가운데에 시간정보가 배치되는 것으로 
+ * 3. 심플한 것을 요구하였기 때문에, 화면 정 가운데에 시간정보가 배치되는 것으로
  *    디자인을 일단락하기로 했다.
  * 4. 가상의 동료가 접속량을 체크하는 모듈을 추가할 것이기 때문에, 정적페이지제작이
  *    제한되고 서버사이드 렌더링(server-side rendering)방식을 요구한다.
@@ -14,10 +13,9 @@
  * 8. 포트번호는 3050으로 진행할 것
  */
 
-const { timeStamp } = require("console");
-const http = require("http")
-const timers = require("timers")
-function htmlFormat(data){
+const http = require("http");
+const timers = require("timers");
+function htmlFormat(data) {
   return `
   <!DOCTYPE html>
   <html lang="en">
@@ -33,45 +31,37 @@ function htmlFormat(data){
   </html>
   `;
 }
-const bodyTestData = 
-`
+const bodyTestData = `
 <h1>안녕하세요</h1>
-`
-function timestamp(){
-  const watch = new Date;
-  let livedHours =   watch.getHours(watch.getTime());
-  let livedMinutes =   watch.getMinutes(watch.getTime());
-  let livedSecond =   watch.getSeconds(watch.getTime());
-      
-  return livedHours+":"+livedMinutes+":"+livedSecond
-    
-} 
-console.log(timestamp())
+`;
+
 function intervalFunc() {
-  const watch = new Date;
-  let livedHours =   watch.getHours();
-  let livedMinutes =   watch.getMinutes();
-  let livedSecond =   watch.getSeconds();
-      
-  return console.log(livedHours+":"+livedMinutes+":"+livedSecond)
+  const watch = new Date();
+  let livedHours = watch.getHours();
+  let livedMinutes = watch.getMinutes();
+  let livedSecond = watch.getSeconds();
+
+  return console.log(livedHours + ":" + livedMinutes + ":" + livedSecond);
 }
 
+const appServer = http
+  .createServer((req, res) => {
+    res.writeHead(200, { "Content-Type": "text/html; charset=utf-8" });
+    function timestamp() {
+      const watch = new Date();
+      let livedHours = watch.getHours(watch.getTime());
+      let livedMinutes = watch.getMinutes(watch.getTime());
+      let livedSecond = watch.getSeconds(watch.getTime());
 
-
-const appServer = http.createServer((req,res)=>{
-  
-  
-  if(req.url==='/'){
-    res.writeHead(200, {'Content-Type': 'text/html'});
-    setInterval(()=>{
-      console.log(timestamp())
-      res.write(htmlFormat(timestamp()))
-    }, 1000);
-  }
-}).listen(3050,(err)=>{
-  if(err){
-    console.log("에러 발생")
-  }else {
-    console.log("서버가 구동됨")
-  }
-})
+      let timeString = livedHours + ":" + livedMinutes + ":" + livedSecond;
+      res.write(timeString);
+    }
+    setInterval(timestamp, 1000);
+  })
+  .listen(3050, (err) => {
+    if (err) {
+      console.log("에러 발생");
+    } else {
+      console.log("서버가 구동됨");
+    }
+  });
